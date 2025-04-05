@@ -1,8 +1,8 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
-import { payloadcmsColorPickerField } from 'payloadcms-color-picker-field'
+import { ColorPickerField, payloadcmsColorPickerField } from 'payloadcms-color-picker-field'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
@@ -27,7 +27,7 @@ export default buildConfig({
   collections: [
     {
       slug: 'posts',
-      fields: [],
+      fields: [ColorPickerField({ name: 'colorPicker', required: false })],
     },
     {
       slug: 'media',
@@ -37,8 +37,10 @@ export default buildConfig({
       },
     },
   ],
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+  db: sqliteAdapter({
+    client: {
+      url: 'file:./payload.db',
+    },
   }),
   editor: lexicalEditor(),
   email: testEmailAdapter,

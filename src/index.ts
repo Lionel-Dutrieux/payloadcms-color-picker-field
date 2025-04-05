@@ -1,5 +1,8 @@
 import type { CollectionSlug, Config } from 'payload'
 
+// Export the ColorPickerField (PayloadCMS Field)
+export { ColorPickerField } from './fields/ColorPicker/index.js'
+
 export type PayloadcmsColorPickerFieldConfig = {
   /**
    * List of collections to add a custom field
