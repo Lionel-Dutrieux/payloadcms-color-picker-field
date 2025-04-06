@@ -1,6 +1,6 @@
 {
   "name": "payloadcms-color-picker-field",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A blank template to get started with Payload 3.0",
   "license": "MIT",
   "type": "module",
@@ -94,16 +94,6 @@
         "import": "./dist/index.js",
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
-      },
-      "./client": {
-        "import": "./dist/exports/client.js",
-        "types": "./dist/exports/client.d.ts",
-        "default": "./dist/exports/client.js"
-      },
-      "./rsc": {
-        "import": "./dist/exports/rsc.js",
-        "types": "./dist/exports/rsc.d.ts",
-        "default": "./dist/exports/rsc.js"
       }
     },
     "main": "./dist/index.js",
@@ -114,5 +104,9 @@
       "sharp"
     ]
   },
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "dependencies": {
+    "@types/chroma-js": "^3.1.1",
+    "chroma-js": "^3.1.2"
+  }
 }

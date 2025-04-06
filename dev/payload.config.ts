@@ -2,7 +2,7 @@ import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
-import { ColorPickerField, payloadcmsColorPickerField } from 'payloadcms-color-picker-field'
+import { ColorPickerField } from 'payloadcms-color-picker-field'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
@@ -27,7 +27,11 @@ export default buildConfig({
   collections: [
     {
       slug: 'posts',
-      fields: [ColorPickerField({ name: 'colorPicker', required: false })],
+      fields: [
+        ColorPickerField({ name: 'colorPicker', format: 'all', required: false }),
+        ColorPickerField({ name: 'colorPicker2', format: 'oklch', required: false }),
+        ColorPickerField({ name: 'colorPicker3', format: 'hex', required: false }),
+      ],
     },
     {
       slug: 'media',
@@ -47,13 +51,7 @@ export default buildConfig({
   onInit: async (payload) => {
     await seed(payload)
   },
-  plugins: [
-    payloadcmsColorPickerField({
-      collections: {
-        posts: true,
-      },
-    }),
-  ],
+  plugins: [],
   secret: process.env.PAYLOAD_SECRET || 'test-secret_key',
   sharp,
   typescript: {
