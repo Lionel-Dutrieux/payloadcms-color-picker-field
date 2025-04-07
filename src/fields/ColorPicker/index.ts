@@ -5,6 +5,7 @@ export type ColorFormat = 'all' | 'hex' | 'hsl' | 'oklch'
 export type ColorPickerProps = {
   format?: ColorFormat
   name: string
+  placeholder?: string
   required?: boolean
 }
 
@@ -18,6 +19,7 @@ export function ColorPickerField(props: ColorPickerProps): Field {
           Field: {
             clientProps: {
               format: 'all',
+              placeholder: props.placeholder,
             },
             path: 'payloadcms-color-picker-field/ColorPickerComponent#default',
           },
@@ -35,6 +37,7 @@ export function ColorPickerField(props: ColorPickerProps): Field {
         Field: {
           clientProps: {
             format: props.format || 'hex',
+            placeholder: props.placeholder,
           },
           path: 'payloadcms-color-picker-field/ColorPickerComponent#default',
         },

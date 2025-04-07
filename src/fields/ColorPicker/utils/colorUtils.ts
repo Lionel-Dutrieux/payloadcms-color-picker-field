@@ -16,6 +16,26 @@ export interface ValidatedColor {
 
 export const ColorUtils = {
   /**
+   * Format OKLCH values to prevent NaN and handle edge cases
+   */
+  formatOKLCH(color: chroma.Color): string {
+    const oklch = color.oklch()
+    const l = Math.max(0, Math.min(100, oklch[0] * 100)) // Lightness: 0-100%
+    const c = Math.max(0, Math.min(0.4, oklch[1])).toFixed(3) // Chroma: typically 0-0.4
+    let h = oklch[2]
+
+    // Handle undefined hue (happens with black, white, and grays)
+    if (isNaN(h) || oklch[1] < 0.0001) {
+      h = 0 // Default to 0 for achromatic colors
+    } else {
+      // Ensure hue is between 0 and 360
+      h = ((h % 360) + 360) % 360
+    }
+
+    return `oklch(${l.toFixed(1)}% ${c} ${h.toFixed(1)})`
+  },
+
+  /**
    * Validates a color string and returns detailed validation result
    */
   validate(color: string): ValidatedColor {
@@ -28,7 +48,7 @@ export const ColorUtils = {
       const value = {
         hex: chromaColor.hex(),
         hsl: chromaColor.css('hsl'),
-        oklch: `oklch(${(chromaColor.oklch()[0] * 100).toFixed(1)}% ${chromaColor.oklch()[1].toFixed(3)} ${chromaColor.oklch()[2].toFixed(1)})`,
+        oklch: this.formatOKLCH(chromaColor),
       }
       return { isValid: true, value }
     } catch (error) {
