@@ -1,14 +1,14 @@
 import React from 'react'
 
-import type { ColorFormats as ColorFormatsType } from '../types.js'
+import type { ColorState } from '../utils/colorUtils.js'
 
 /**
  * Props for the ColorFormats component
  * @interface ColorFormatsProps
- * @property {ColorFormatsType} colorValue - The color value in different formats
+ * @property {ColorState} colorValue - The color value in different formats
  */
 interface ColorFormatsProps {
-  colorValue: ColorFormatsType
+  colorValue: ColorState
 }
 
 /**
@@ -23,14 +23,21 @@ export const ColorFormats: React.FC<ColorFormatsProps> = ({ colorValue }) => {
       <div className="color-selector__format">
         <div
           className="color-selector__format-preview"
-          style={{ backgroundColor: colorValue.hsl }}
+          style={{ backgroundColor: colorValue.hex }}
+        />
+        <span>{colorValue.hex}</span>
+      </div>
+      <div className="color-selector__format">
+        <div
+          className="color-selector__format-preview"
+          style={{ backgroundColor: colorValue.hex }}
         />
         <span>{colorValue.hsl}</span>
       </div>
       <div className="color-selector__format">
         <div
           className="color-selector__format-preview"
-          style={{ backgroundColor: colorValue.oklch }}
+          style={{ backgroundColor: colorValue.hex }}
         />
         <span>{colorValue.oklch}</span>
       </div>

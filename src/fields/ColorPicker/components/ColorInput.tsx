@@ -1,23 +1,23 @@
 import React from 'react'
 
-import type { FieldConfig } from '../types.js'
-
 /**
  * Props for the ColorInput component
  * @interface ColorInputProps
  * @property {string} value - The current color value
- * @property {string} inputValue - The current input value
  * @property {boolean} isValid - Whether the color is valid
- * @property {FieldConfig} field - The field configuration
+ * @property {string} error - The error message for the color input
  * @property {string} path - The field path
+ * @property {string} placeholder - The placeholder text for the input
+ * @property {boolean} required - Whether the input is required
  * @property {(value: string) => void} onChange - Callback when the input value changes
  */
 interface ColorInputProps {
-  field: FieldConfig
-  inputValue: string
+  error?: string
   isValid: boolean
   onChange: (value: string) => void
   path: string
+  placeholder?: string
+  required?: boolean
   value: string
 }
 
@@ -28,23 +28,27 @@ interface ColorInputProps {
  * @returns {JSX.Element} The rendered component
  */
 export const ColorInput: React.FC<ColorInputProps> = ({
-  field,
-  inputValue,
+  error,
   isValid,
   onChange,
   path,
+  placeholder = '#000000',
+  required = false,
   value,
 }) => {
   return (
-    <input
-      className={`color-selector__text-field ${!isValid && value ? 'color-selector__text-field--error' : ''}`}
-      id={path}
-      name={path}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={field.placeholder || '#000000'}
-      required={field.required}
-      type="text"
-      value={inputValue || value}
-    />
+    <div className="color-selector__input-container">
+      <input
+        className={`color-selector__text-field ${!isValid && value ? 'color-selector__text-field--error' : ''}`}
+        id={path}
+        name={path}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        type="text"
+        value={value}
+      />
+      {error && value && <div className="color-selector__error-message">{error}</div>}
+    </div>
   )
 }
