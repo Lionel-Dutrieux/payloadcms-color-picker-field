@@ -2,8 +2,13 @@ import type { Field } from 'payload'
 
 export type ColorFormat = 'all' | 'hex' | 'hsl' | 'oklch'
 
+export type LocalizedLabel = {
+  [key: string]: string
+}
+
 export type ColorPickerProps = {
   format?: ColorFormat
+  label?: LocalizedLabel | string
   name: string
   placeholder?: string
   required?: boolean
@@ -25,6 +30,7 @@ export function ColorPickerField(props: ColorPickerProps): Field {
           },
         },
       },
+      label: props.label,
       required: props.required,
     }
   }
@@ -43,6 +49,7 @@ export function ColorPickerField(props: ColorPickerProps): Field {
         },
       },
     },
+    label: props.label,
     required: props.required,
   }
 }

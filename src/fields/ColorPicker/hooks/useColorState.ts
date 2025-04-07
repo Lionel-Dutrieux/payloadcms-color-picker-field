@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import type { ColorFormat } from '../index.js'
 
 import { type ColorState, ColorUtils } from '../utils/colorUtils.js'
+import { debounce } from '../utils/debounce.js'
 
 interface UseColorStateProps {
   format: ColorFormat
@@ -29,8 +30,9 @@ export const useColorState = ({
   const [error, setError] = useState<string>()
   const [colorState, setColorState] = useState<ColorState | null>(null)
 
-  const updateColorState = useCallback(
-    (color: string) => {
+  // Créer une version debounced de la fonction de mise à jour
+  const debouncedUpdateColorState = useCallback(
+    debounce((color: string) => {
       const validated = ColorUtils.validate(color)
       setError(validated.error)
 
@@ -50,15 +52,24 @@ export const useColorState = ({
         setColorState(null)
         onChange(null)
       }
-    },
+    }, 150), // 150ms de debounce
     [format, onChange],
   )
 
+  // Nettoyer le debounce lors du démontage du composant
+  useEffect(() => {
+    return () => {
+      debouncedUpdateColorState.cancel()
+    }
+  }, [debouncedUpdateColorState])
+
   const handleColorChange = useCallback(
     (newColor: string) => {
-      updateColorState(newColor)
+      // Mettre à jour immédiatement l'aperçu pour une meilleure UX
+      setInputValue(newColor)
+      debouncedUpdateColorState(newColor)
     },
-    [updateColorState],
+    [debouncedUpdateColorState],
   )
 
   const handleInputChange = useCallback(
@@ -70,9 +81,9 @@ export const useColorState = ({
         onChange(null)
         return
       }
-      updateColorState(input)
+      debouncedUpdateColorState(input)
     },
-    [onChange, updateColorState],
+    [onChange, debouncedUpdateColorState],
   )
 
   // Initialize state from props

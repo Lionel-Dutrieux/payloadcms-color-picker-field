@@ -1,6 +1,6 @@
 {
   "name": "payloadcms-color-picker-field",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "PayloadCMS 3.0 Color Picker Field",
   "license": "MIT",
   "type": "module",
